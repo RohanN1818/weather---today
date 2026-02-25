@@ -18,24 +18,33 @@ const humidityEl = document.getElementById('humidity');
 const windSpeedEl = document.getElementById('windSpeed');
 const feelsLikeEl = document.getElementById('feelsLike');
 
-searchBtn.addEventListener('click', () => {
-    const city = cityInput.value.trim();
-    if (city) {
-        fetchWeather(city);
-    }
-});
+let isLoading = false; // 🔥 Prevent multiple requests
+
+searchBtn.addEventListener('click', handleSearch);
 
 cityInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
-        const city = cityInput.value.trim();
-        if (city) {
-            fetchWeather(city);
-        }
+        handleSearch();
     }
 });
 
+function handleSearch() {
+    const city = cityInput.value.trim();
+
+    if (!city) {
+        showError("Please enter a city name.");
+        return;
+    }
+
+    if (isLoading) return; // 🚫 Ignore if already loading
+
+    fetchWeather(city);
+}
+
 async function fetchWeather(city) {
-    // Show loader, hide error/card
+    isLoading = true;
+    searchBtn.disabled = true;
+
     loader.classList.remove('hidden');
     weatherCard.classList.add('hidden');
     errorMessage.classList.add('hidden');
@@ -45,18 +54,19 @@ async function fetchWeather(city) {
         const response = await fetch(url);
         const data = await response.json();
 
-        loader.classList.add('hidden');
-
         if (data.error) {
-            showError("City not found. Please try again or check the spelling.");
+            showError("City not found. Please try again.");
             console.error("API Error:", data.error);
         } else {
             updateUI(data);
         }
     } catch (error) {
-        loader.classList.add('hidden');
         showError("Unable to fetch weather data. Please check your connection.");
         console.error("Fetch Error:", error);
+    } finally {
+        loader.classList.add('hidden');
+        searchBtn.disabled = false;
+        isLoading = false;
     }
 }
 
@@ -66,12 +76,9 @@ function updateUI(data) {
 
     cityNameEl.textContent = location.name;
     countryNameEl.textContent = location.country;
-
-    // Format local time: "2023-10-27 10:30" -> "10:30"
-    // Or just display as returned
     localTimeEl.textContent = `Local Time: ${location.localtime.split(' ')[1]}`;
 
-    temperatureEl.textContent = current.temperature;
+    temperatureEl.textContent = `${current.temperature}°C`;
     weatherDescEl.textContent = current.weather_descriptions[0];
     weatherIconEl.src = current.weather_icons[0];
 
