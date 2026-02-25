@@ -18,33 +18,24 @@ const humidityEl = document.getElementById('humidity');
 const windSpeedEl = document.getElementById('windSpeed');
 const feelsLikeEl = document.getElementById('feelsLike');
 
-let isLoading = false; // 🔥 Prevent multiple requests
-
-searchBtn.addEventListener('click', handleSearch);
-
-cityInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        handleSearch();
+searchBtn.addEventListener('click', () => {
+    const city = cityInput.value.trim();
+    if (city) {
+        fetchWeather(city);
     }
 });
 
-function handleSearch() {
-    const city = cityInput.value.trim();
-
-    if (!city) {
-        showError("Please enter a city name.");
-        return;
+cityInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const city = cityInput.value.trim();
+        if (city) {
+            fetchWeather(city);
+        }
     }
-
-    if (isLoading) return; // 🚫 Ignore if already loading
-
-    fetchWeather(city);
-}
+});
 
 async function fetchWeather(city) {
-    isLoading = true;
-    searchBtn.disabled = true;
-
+    // Show loader, hide error/card
     loader.classList.remove('hidden');
     weatherCard.classList.add('hidden');
     errorMessage.classList.add('hidden');
@@ -54,19 +45,18 @@ async function fetchWeather(city) {
         const response = await fetch(url);
         const data = await response.json();
 
+        loader.classList.add('hidden');
+
         if (data.error) {
-            showError("City not found. Please try again.");
+            showError("City not found. Please try again or check the spelling.");
             console.error("API Error:", data.error);
         } else {
             updateUI(data);
         }
     } catch (error) {
+        loader.classList.add('hidden');
         showError("Unable to fetch weather data. Please check your connection.");
         console.error("Fetch Error:", error);
-    } finally {
-        loader.classList.add('hidden');
-        searchBtn.disabled = false;
-        isLoading = false;
     }
 }
 
@@ -76,9 +66,12 @@ function updateUI(data) {
 
     cityNameEl.textContent = location.name;
     countryNameEl.textContent = location.country;
+
+    // Format local time: "2023-10-27 10:30" -> "10:30"
+    // Or just display as returned
     localTimeEl.textContent = `Local Time: ${location.localtime.split(' ')[1]}`;
 
-    temperatureEl.textContent = `${current.temperature}°C`;
+    temperatureEl.textContent = current.temperature;
     weatherDescEl.textContent = current.weather_descriptions[0];
     weatherIconEl.src = current.weather_icons[0];
 
