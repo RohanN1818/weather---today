@@ -1,44 +1,41 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast App</title>
+    <title>Worldwide Weather App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="app-container">
-    <header>
-        <h1>Weather Forecast</h1>
-    </header>
+<div class="container">
+    <h1>🌍 Weather App</h1>
 
-    <main>
-        <div class="search-container">
-            <input type="text" id="cityInput" placeholder="Enter city name">
-            <button id="searchBtn">Search</button>
+    <div class="search-box">
+        <input type="text" id="cityInput" placeholder="Enter city name">
+        <button id="searchBtn">Search</button>
+    </div>
+
+    <div id="loader" class="hidden">Loading...</div>
+
+    <div id="errorMessage" class="error hidden"></div>
+
+    <div id="weatherCard" class="card hidden">
+        <h2 id="cityName"></h2>
+        <p id="countryName"></p>
+        <p id="localTime"></p>
+
+        <img id="weatherIcon" src="" alt="Weather Icon">
+
+        <h3 id="temperature"></h3>
+        <p id="weatherDescription"></p>
+
+        <div class="details">
+            <p>Humidity: <span id="humidity"></span></p>
+            <p>Wind Speed: <span id="windSpeed"></span></p>
+            <p>Feels Like: <span id="feelsLike"></span></p>
         </div>
-
-        <div id="errorMessage" class="hidden"></div>
-        <div id="loader" class="hidden">Loading...</div>
-
-        <div id="weatherCard" class="hidden">
-            <h2 id="cityName">City</h2>
-            <p id="countryName">Country</p>
-            <p id="localTime"></p>
-
-            <img id="weatherIcon" src="" alt="Weather Icon">
-
-            <h1 id="temperature">--</h1>
-            <p id="weatherDescription"></p>
-
-            <div>
-                <p>Humidity: <span id="humidity"></span></p>
-                <p>Wind Speed: <span id="windSpeed"></span></p>
-                <p>Feels Like: <span id="feelsLike"></span></p>
-            </div>
-        </div>
-    </main>
+    </div>
 </div>
 
 <script src="script.js"></script>
