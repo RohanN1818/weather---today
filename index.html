@@ -1,43 +1,54 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Worldwide Weather App</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modern Weather App</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-    <h1>🌍 Weather App</h1>
+<div class="app">
 
-    <div class="search-box">
-        <input type="text" id="cityInput" placeholder="Enter city name">
-        <button id="searchBtn">Search</button>
-    </div>
+    <!-- Top Section -->
+    <div class="top-section">
+        <div>
+            <h1 id="cityName">City</h1>
+            <p id="dateTime">Date & Time</p>
+        </div>
 
-    <div id="loader" class="hidden">Loading...</div>
-
-    <div id="errorMessage" class="error hidden"></div>
-
-    <div id="weatherCard" class="card hidden">
-        <h2 id="cityName"></h2>
-        <p id="countryName"></p>
-        <p id="localTime"></p>
-
-        <img id="weatherIcon" src="" alt="Weather Icon">
-
-        <h3 id="temperature"></h3>
-        <p id="weatherDescription"></p>
-
-        <div class="details">
-            <p>Humidity: <span id="humidity"></span></p>
-            <p>Wind Speed: <span id="windSpeed"></span></p>
-            <p>Feels Like: <span id="feelsLike"></span></p>
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city name">
+            <button id="searchBtn">Search</button>
         </div>
     </div>
+
+    <!-- Main Weather -->
+    <div class="main-weather">
+        <div class="temp-section">
+            <h2 id="temperature">--°C</h2>
+            <p id="description">Weather description</p>
+        </div>
+
+        <div class="icon-section">
+            <img id="weatherIcon" src="">
+        </div>
+
+        <div class="extra-info">
+            <p>Feels like: <span id="feelsLike"></span></p>
+            <p>Humidity: <span id="humidity"></span></p>
+            <p>Wind: <span id="windSpeed"></span></p>
+        </div>
+    </div>
+
+    <!-- Forecast -->
+    <div class="forecast" id="forecast">
+        <!-- Forecast cards will appear here -->
+    </div>
+
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
+
