@@ -18,11 +18,8 @@ const windSpeedEl = document.getElementById("windSpeed");
 const feelsLikeEl = document.getElementById("feelsLike");
 
 searchBtn.addEventListener("click", handleSearch);
-
 cityInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        handleSearch();
-    }
+    if (e.key === "Enter") handleSearch();
 });
 
 function handleSearch() {
@@ -40,7 +37,7 @@ async function fetchWeather(city) {
     errorMessage.classList.add("hidden");
 
     try {
-        const url = `${apiBaseUrl}?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+        const url = `${apiBaseUrl}?q=${encodeURIComponent(city)},IN&appid=${apiKey}&units=metric`;
         const response = await fetch(url);
         const data = await response.json();
 
@@ -83,4 +80,3 @@ function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.remove("hidden");
 }
-
