@@ -18,8 +18,11 @@ const windSpeedEl = document.getElementById("windSpeed");
 const feelsLikeEl = document.getElementById("feelsLike");
 
 searchBtn.addEventListener("click", handleSearch);
-cityInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") handleSearch();
+
+cityInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+        handleSearch();
+    }
 });
 
 function handleSearch() {
@@ -37,19 +40,20 @@ async function fetchWeather(city) {
     errorMessage.classList.add("hidden");
 
     try {
-        const url = `${apiBaseUrl}?q=${encodeURIComponent(city)},IN&appid=${apiKey}&units=metric`;
+        const url = `${apiBaseUrl}?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
         const response = await fetch(url);
-        const data = await response.json();
 
-        if (data.cod != 200) {
+        if (!response.ok) {
             showError("City not found. Please check spelling.");
+            loader.classList.add("hidden");
             return;
         }
 
+        const data = await response.json();
         updateUI(data);
 
     } catch (error) {
-        showError("Unable to fetch weather data.");
+        showError("Unable to fetch weather data. Check your connection.");
         console.error(error);
     } finally {
         loader.classList.add("hidden");
