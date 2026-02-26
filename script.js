@@ -1,4 +1,4 @@
-const apiKey = "YOUR_API_KEY_HERE";
+const apiKey = "20c68995b1ef64c9a96931faa88caa22";
 const apiBaseUrl = "https://api.openweathermap.org/data/2.5/weather";
 
 const searchBtn = document.getElementById("searchBtn");
@@ -83,3 +83,4 @@ function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.remove("hidden");
 }
+
